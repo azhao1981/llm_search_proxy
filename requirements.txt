@@ -7,3 +7,10 @@ langchain
 dynaconf
 pytest
 python-dotenv
+pydantic-settings
+shortuuid
+
+polyglot
+pyicu
+pycld2
+pillow
