@@ -4,3 +4,4 @@ poetry
 ipykernel
 jupyter
 ipywidgets
+pip

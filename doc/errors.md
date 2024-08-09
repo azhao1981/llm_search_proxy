@@ -6,6 +6,45 @@ uv venv ~/.py/venvs/llm310
 uv pip install -r requirements.txt
 source /home/weiz/.py/venvs/llm310/bin/activate
 
+uv 不能安装，好像 conda 就可以
+要安装 clang
+
+
+解决：
+ CPPFLAGS="-std=c++98" pip install pycld2
+ CPPFLAGS="-std=c++03" pip install pycld2
+
+`CPPFLAGS="-std=c++98"` 和 `CPPFLAGS="-std=c++03"` 的区别在于它们指定的 C++ 标准版本不同：
+
+1. **`CPPFLAGS="-std=c++98"`**：
+   - 指定使用 C++98 标准。
+   - C++98 是第一个国际标准化的 C++ 版本，于 1998 年发布。
+   - 它定义了许多基础的 C++ 特性，但缺乏一些现代特性和改进。
+
+2. **`CPPFLAGS="-std=c++03"`**：
+   - 指定使用 C++03 标准。
+   - C++03 是对 C++98 的一个小修订版，于 2003 年发布。
+   - 它主要是对 C++98 的一些错误修正和细微改进，没有引入新的语言特性。
+
+总结：
+- 两者基本上是相同的，C++03 是对 C++98 的一个小幅修订。
+- 在大多数情况下，使用这两个选项编译代码不会有明显的区别。
+- 
+ref:
+https://github.com/CLD2Owners/cld2/issues/47
+https://github.com/emk/rust-cld2/issues/2
+
+原因：
+
+CLD2 is not compatible with GCC 6 because it assigns negative values to varibales typed unsigned. (see internal/cld_generated_cjk_uni_prop_80.cc) The support ...
+
+Error installing cld2 gem with gcc 6+ #2804
+https://github.com/mastodon/mastodon/issues/2804
+这个是 ruby的项目，也有 cld2的问题
+
+https://git.chinwag.org/chinwag/chinwagsocial/commit/d5cabfe5c65ac29d2f9c151b46c01a9fd885a9e0
+这里建议使用 cld3 
+
 这个是google的C库
 https://github.com/CLD2Owners/cld2
 这个是python
@@ -101,3 +140,41 @@ spacy-cld 无法安装的问题
 
 https://blog.csdn.net/m0_55419239/article/details/137194249
 
+How to determine the language of a piece of text?
+https://stackoverflow.com/questions/39142778/how-to-determine-the-language-of-a-piece-of-text
+
+
+因为我的版本不够 libicui18n.so.70 只有
+libicui18n.so.73: cannot open shared object file: No such file or directory
+
+https://github.com/unicode-org/icu/releases/tag/release-73-2
+data用来干什么，要下载吗？
+icu4c-73_2-src.zip
+
+unzip  icu4c-73_2-src.zip
+这个好像是windows的
+cd icu/source
+./configure
+make
+sudo make install
+
+icu4c-73_2-src.tgz
+tar -xzf icu4c-73_2-src.tgz
+cd icu/source
+./configure
+make
+sudo make install
+安装完后在这里： 不是在 /usr/lib/x86_64-linux-gnu/ 下
+ll /usr/local/lib | rg libic
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+sudo apt-get install libicu-dev
+dpkg -l | grep libicu
+ll /usr/lib/x86_64-linux-gnu/ | rg libicui18n
+
+sudo ln -s /usr/lib/x86_64-linux-gnu/libicui18n.so.72 /usr/lib/x86_64-linux-gnu/libicui18n.so.73
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+
+ModuleNotFoundError: No module named 'morfessor'
+pip install morfessor
