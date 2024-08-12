@@ -31,7 +31,9 @@ uv 不能安装，好像 conda 就可以
 - 在大多数情况下，使用这两个选项编译代码不会有明显的区别。
 - 
 ref:
+
 https://github.com/CLD2Owners/cld2/issues/47
+
 https://github.com/emk/rust-cld2/issues/2
 
 原因：
@@ -42,26 +44,34 @@ Error installing cld2 gem with gcc 6+ #2804
 https://github.com/mastodon/mastodon/issues/2804
 这个是 ruby的项目，也有 cld2的问题
 
+这里建议使用 cld3 ,而且有详细出问题的原因
 https://git.chinwag.org/chinwag/chinwagsocial/commit/d5cabfe5c65ac29d2f9c151b46c01a9fd885a9e0
-这里建议使用 cld3 
 
 这个是google的C库
 https://github.com/CLD2Owners/cld2
+
 这个是python
 https://github.com/aboSamoor/pycld2/
 
 有出3了
+
 https://github.com/google/cld3
+
 https://pypi.org/project/gcld3/
+
+```bash
 pip install gcld3
+```
 
 Python Extension for CLD2
+
 https://bofeng.github.io/post/python-extension-for-cld2/
 
 CFLAGS=-stdlib=libc++ pip install pycld2
 x86_64-linux-gnu-gcc: error: unrecognized command-line option ‘-stdlib=libc++’
 error: command '/usr/bin/x86_64-linux-gnu-gcc' failed with exit code 1
 [end of output]
+
 https://github.com/aboSamoor/pycld2
 
 https://www.cnblogs.com/leimu/p/14810464.html
@@ -84,6 +94,11 @@ text_en = u"Japan's last pager provider has announced it will end its service in
 text_cn = u" 日本最后一家寻呼机服务营业商宣布，将于2019年9月结束服务，标志着日本寻呼业长达50年的历史正式落幕。目前大约还有1500名用户使用东京电信通信公司提供的寻呼服务，该公司在20年前就已停止生产寻呼机。"
 text_mixed = text_cn + text_en
 ```
+
+python -u "/home/weiz/projects/github.com/llm_search_proxy/tests/test_polyglot.py"
+Segmentation fault
+这个好像就是3.11.9 的问题了
+conda的3.10.12没有问题
 
 polyglot：Pipeline 多语言NLP工具
 https://cloud.tencent.com/developer/article/1519291

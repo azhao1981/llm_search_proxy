@@ -1,0 +1,10 @@
+--index-url https://pypi.tuna.tsinghua.edu.cn/simple
+polyglot
+pyicu
+pycld2
+morfessor
+six
+pysocks
+requests[socks]
+httpx[socks]
+httpcore[socks]
