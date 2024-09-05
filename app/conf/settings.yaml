@@ -13,6 +13,7 @@ default:
       api_version: "2024-02-01"
       name: 'example1'     # 记录usage时 channel_name
       provider: "azure"
+  IP_CHECK_URL: 'https://ifconfig.me'
 production:
   workers: 10
   log:
