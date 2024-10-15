@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import AsyncGenerator, List, Optional
 import httpx
+import os
 import asyncio
 from pydantic import BaseModel
 from app.log import log
@@ -53,39 +54,49 @@ class ChatCompletionsService:
     def __init__(self, request: ChatCompletionsRequest):
         self.request = request
         self.bing_search = BingSearchRun(api_wrapper=BingSearchAPIWrapper())
+        self.search_result = None
 
     async def get_completion(self) -> AsyncGenerator[str, None]:
         try:
             if search_result := await self.search():
+                self.search_result = search_result
                 yield search_result
 
-            for i in range(1, 11):
-                response = ChatCompletionsResponse(
-                    id="chatcmpl-123",
-                    object="chat.completion",
-                    created=1677652288,
-                    model=self.request.model,
-                    choices=[
-                        Choice(
-                            index=0,
-                            message=Message(
-                                role="assistant",
-                                content=f"这是一个模拟的回复。{i}"
-                            ),
-                            finish_reason="stop"
-                        )
-                    ],
-                    usage=Usage(
-                        prompt_tokens=9,
-                        completion_tokens=12,
-                        total_tokens=21
-                    )
-                )
-                yield response.model_dump_json()
-                await asyncio.sleep(1)
+            if self.request.stream:
+                async for response in self.stream_request():
+                    yield response
+            else:
+                yield await self.normal_request()
+
         except httpx.HTTPError as e:
-            # 这里可以根据需要进行更详细的错误处理
             raise ValueError(f"Failed to get completion: {str(e)}")
+
+    async def stream_request(self):
+        if self.search_result:
+            self.request.messages.append(Message(
+                role="assistant",
+                content=self.search_result
+            ))
+        openai_response = await self.call_openai_api(self.request)
+        return openai_response
+
+    async def normal_request(self):
+        if self.search_result:
+            self.request.messages.append(Message(
+                role="assistant",
+                content=self.search_result
+            ))
+        openai_response = await self.call_openai_api(self.request)
+        return openai_response
+
+    async def call_openai_api(self, request: ChatCompletionsRequest):
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "https://api.gezhishirt.club/v1/chat/completions",
+                headers={"Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"},
+                json=request.model_dump()
+            )
+            return response.json()
 
     async def search(self):
         if self.request.messages and self.request.messages[-1].content.startswith("@search"):

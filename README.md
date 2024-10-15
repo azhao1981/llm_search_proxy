@@ -3,7 +3,7 @@
 ## test
 
 ```bash
-xh -S post http://localhost:8068/openai/v1/chat/completions name=weiz
+xh -S post http://localhost:8068/openai/v1/chat/completions model=gpt-4o messages:='[{"role": "user", "content": "@search 怎么理解llm"}]'
 ```
 
 ## env
