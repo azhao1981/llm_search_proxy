@@ -7,11 +7,14 @@ from app.log import log
 
 logger = log.set_log()
 
+
 class ChatCompletionsRequest(BaseModel):
     name: str = Field(..., description="Name for the chat completion")
 
+
 class ChatCompletionsResponse(BaseModel):
     text: str = Field(..., description="Response text from the chat completion")
+
 
 class ChatCompletionsService:
     def __init__(self, request: ChatCompletionsRequest):
@@ -31,7 +34,9 @@ class ChatCompletionsService:
             raise ValueError(f"Failed to get completion: {str(e)}")
 
 
-async def create_chat_completion(request: ChatCompletionsRequest) -> AsyncGenerator[ChatCompletionsResponse, None]:
+async def create_chat_completion(
+    request: ChatCompletionsRequest
+) -> AsyncGenerator[ChatCompletionsResponse, None]:
     service = ChatCompletionsService(request)
     async for response in service.get_completion():
         yield response

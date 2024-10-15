@@ -10,11 +10,10 @@ if __name__ == '__main__':
     t = Text(text, hint_language_code=language_code)
     print(t.words)
 
-    text = """
-    Japan's last pager provider has announced it will end its service in September 2019 - bringing a national end to telecommunication beepers , 
-50 years after their introduction.Around 1,500 users remain subscribed to Tokyo Telemessage , which has not made the devices in 20 years .
-    """
+    text = (
+        "Japan's last pager provider has announced it will end its service in "
+        "September 2019 - bringing a national end to telecommunication beepers, "
+        "50 years after their introduction. Around 1,500 users remain subscribed "
+        "to Tokyo Telemessage, which has not made the devices in 20 years."
+    )
     print(Text(text).words)
-
-
-    

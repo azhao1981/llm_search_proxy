@@ -1,4 +1,10 @@
-# fast-llm-template
+# llm-search-proxy
+
+## test
+
+```bash
+xh -S post http://localhost:8068/openai/v1/chat/completions name=weiz
+```
 
 ## env
 
