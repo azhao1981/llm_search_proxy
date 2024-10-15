@@ -12,8 +12,8 @@ async def completions(request: ChatCompletionsRequest):
     try:
         async def generate():
             async for response in create_chat_completion(request):
-                yield f"{response.text}\n"
-        
+                yield f"{response}\n"
+
         return StreamingResponse(generate(), media_type="text/plain")
 
     except ValueError as e:
