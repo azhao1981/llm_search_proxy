@@ -96,7 +96,7 @@ class ChatCompletionsService:
                 headers={"Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}"},
                 json=request.model_dump()
             )
-            return response.json()
+            return response
 
     async def search(self):
         if self.request.messages and self.request.messages[-1].content.startswith("@search"):
